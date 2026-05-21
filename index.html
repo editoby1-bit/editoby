@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Editoby — Nigerian EdTech for Serious Students</title>
+<meta name="description" content="My Exams App and My JAMB App — the most complete exam prep tools for WAEC, NECO, GCE, NABTEB and JAMB. Past questions, model answers, snap-and-mark theory, AI explanations."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #08111f;
+    --ink-soft: #1a2a3f;
+    --gold: #c9a84c;
+    --gold-lt: #e4c97a;
+    --gold-dk: #a07830;
+    --cream: #f7f3ea;
+    --cream-d: #ede7d6;
+    --white: #ffffff;
+    --text-dim: rgba(255,255,255,0.55);
+    --text-mid: rgba(255,255,255,0.8);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+    --r: 12px;
+    --r-lg: 20px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--ink);
+    color: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2rem;
+    background: rgba(8,17,31,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: .85rem;
+    font-weight: 500;
+    letter-spacing: .03em;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold-lt); }
+  .nav-cta {
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    border-radius: 99px;
+    padding: .5rem 1.25rem;
+    font-family: var(--sans);
+    font-size: .82rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .2s;
+  }
+  .nav-cta:hover { background: var(--gold-lt); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 7rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-kicker {
+    display: inline-block;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 99px;
+    padding: .35rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+    max-width: 900px;
+  }
+  .hero h1 em { color: var(--gold); font-style: italic; }
+  .hero-sub {
+    font-size: clamp(.95rem, 2vw, 1.15rem);
+    color: var(--text-mid);
+    max-width: 580px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+  .hero-actions {
+    display: flex; gap: .85rem; flex-wrap: wrap;
+    justify-content: center; margin-bottom: 3.5rem;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--ink);
+    border: none; border-radius: 99px;
+    padding: .85rem 2rem;
+    font-family: var(--sans);
+    font-size: .95rem; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    transition: all .2s;
+    display: inline-flex; align-items: center; gap: .4rem;
+  }
+  .btn-primary:hover { background: var(--gold-lt); transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 99px;
+    padding: .85rem 2rem;
+    font-family: var(--sans);
+    font-size: .95rem; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    transition: all .2s;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold-lt); }
+  .hero-stats {
+    display: flex; gap: 3rem; flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-stat-val {
+    font-family: var(--serif);
+    font-size: 2rem; font-weight: 700;
+    color: var(--gold-lt);
+    display: block;
+  }
+  .hero-stat-label {
+    font-size: .75rem; font-weight: 500;
+    color: var(--text-dim);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION WRAPPER ── */
+  section { padding: 6rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .section-kicker {
+    font-size: .7rem; font-weight: 600;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: .75rem;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700; line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 1rem; color: var(--text-mid);
+    max-width: 560px; line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  /* ── APPS GRID ── */
+  .apps-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .app-card {
+    background: var(--ink-soft);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: var(--r-lg);
+    padding: 2rem;
+    transition: border-color .3s, transform .3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .app-card::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0; transition: opacity .3s;
+  }
+  .app-card:hover { border-color: rgba(201,168,76,0.5); transform: translateY(-3px); }
+  .app-card:hover::after { opacity: 1; }
+  .app-card-badge {
+    display: inline-block;
+    font-size: .65rem; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink);
+    background: var(--gold);
+    border-radius: 99px;
+    padding: .2rem .65rem;
+    margin-bottom: 1rem;
+  }
+  .app-card-badge.outline {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.5);
+  }
+  .app-card h3 {
+    font-family: var(--serif);
+    font-size: 1.65rem; font-weight: 700;
+    margin-bottom: .5rem; line-height: 1.2;
+  }
+  .app-card p {
+    font-size: .85rem; color: var(--text-mid);
+    line-height: 1.65; margin-bottom: 1.25rem;
+  }
+  .app-subjects {
+    display: flex; flex-wrap: wrap; gap: .4rem;
+    margin-bottom: 1.5rem;
+  }
+  .app-subject-pill {
+    font-size: .68rem; font-weight: 500;
+    color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 99px;
+    padding: .2rem .6rem;
+  }
+  .app-link {
+    display: inline-flex; align-items: center; gap: .4rem;
+    font-size: .85rem; font-weight: 600;
+    color: var(--gold);
+    text-decoration: none;
+    transition: gap .2s;
+  }
+  .app-link:hover { gap: .65rem; }
+  .app-link svg { width: 14px; height: 14px; }
+
+  /* ── FEATURES ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  .feature-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--r);
+    padding: 1.5rem;
+    transition: background .2s;
+  }
+  .feature-card:hover { background: rgba(255,255,255,0.05); }
+  .feature-icon {
+    font-size: 1.5rem; margin-bottom: .85rem;
+  }
+  .feature-card h4 {
+    font-family: var(--serif);
+    font-size: 1.15rem; font-weight: 600;
+    margin-bottom: .4rem;
+  }
+  .feature-card p {
+    font-size: .82rem; color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .feature-tag {
+    display: inline-block;
+    font-size: .6rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--gold); background: rgba(201,168,76,0.12);
+    border-radius: 99px; padding: .15rem .55rem;
+    margin-top: .6rem;
+  }
+
+  /* ── PRICING ── */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .price-card {
+    background: var(--ink-soft);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--r-lg);
+    padding: 1.75rem;
+  }
+  .price-card.featured {
+    border-color: var(--gold);
+    position: relative;
+  }
+  .price-card.featured::before {
+    content: 'MOST POPULAR';
+    position: absolute; top: -12px; left: 50%;
+    transform: translateX(-50%);
+    font-size: .6rem; font-weight: 800;
+    letter-spacing: .12em;
+    color: var(--ink);
+    background: var(--gold);
+    border-radius: 99px;
+    padding: .2rem .75rem;
+    white-space: nowrap;
+  }
+  .price-name {
+    font-family: var(--serif);
+    font-size: 1.25rem; font-weight: 700;
+    margin-bottom: .25rem;
+  }
+  .price-desc { font-size: .78rem; color: var(--text-dim); margin-bottom: 1.25rem; }
+  .price-amount {
+    font-family: var(--serif);
+    font-size: 2.25rem; font-weight: 700;
+    color: var(--gold-lt);
+    line-height: 1;
+    margin-bottom: .2rem;
+  }
+  .price-period { font-size: .75rem; color: var(--text-dim); margin-bottom: 1.25rem; }
+  .price-perks { list-style: none; margin-bottom: 1.5rem; }
+  .price-perks li {
+    font-size: .8rem; color: var(--text-mid);
+    padding: .3rem 0;
+    display: flex; align-items: flex-start; gap: .5rem;
+  }
+  .price-perks li::before {
+    content: '✓';
+    color: var(--gold);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: .05rem;
+  }
+  .price-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--ink);
+    border: none; border-radius: 99px;
+    padding: .7rem;
+    font-family: var(--sans);
+    font-size: .85rem; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    display: block; text-align: center;
+    transition: background .2s;
+  }
+  .price-btn:hover { background: var(--gold-lt); }
+  .price-btn.secondary {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.4);
+  }
+  .price-btn.secondary:hover { background: rgba(201,168,76,0.08); }
+
+  /* ── SCHOOL SECTION ── */
+  .school-banner {
+    background: var(--ink-soft);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: var(--r-lg);
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+  }
+  .school-banner h3 {
+    font-family: var(--serif);
+    font-size: 1.75rem; font-weight: 700;
+    margin-bottom: .75rem; line-height: 1.2;
+  }
+  .school-banner p { font-size: .88rem; color: var(--text-mid); line-height: 1.7; max-width: 520px; }
+  .school-tiers {
+    display: flex; flex-direction: column; gap: .6rem;
+    min-width: 200px;
+  }
+  .school-tier-row {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: .8rem;
+    padding: .5rem .85rem;
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: var(--r);
+  }
+  .school-tier-name { font-weight: 600; }
+  .school-tier-price { color: var(--gold-lt); font-weight: 600; }
+
+  /* ── TESTIMONIAL / TRUST ── */
+  .trust-strip {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    background: rgba(201,168,76,0.03);
+  }
+  .trust-strip p {
+    font-size: .78rem; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 1.5rem;
+  }
+  .trust-exams {
+    display: flex; gap: 2rem; flex-wrap: wrap;
+    justify-content: center; align-items: center;
+  }
+  .trust-exam {
+    font-family: var(--serif);
+    font-size: 1.1rem; font-weight: 700;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: .05em;
+  }
+  .trust-dot { color: var(--gold); opacity: 0.4; }
+
+  /* ── CTA FOOTER ── */
+  .cta-section {
+    text-align: center;
+    padding: 7rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,168,76,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-section h2 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700; line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .cta-section h2 em { color: var(--gold); font-style: italic; }
+  .cta-section p {
+    font-size: 1rem; color: var(--text-mid);
+    margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 2.5rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 1.15rem; font-weight: 700;
+    color: rgba(255,255,255,0.5);
+  }
+  .footer-logo span { color: var(--gold); }
+  footer p { font-size: .75rem; color: rgba(255,255,255,0.3); }
+  footer a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: .75rem; }
+  footer a:hover { color: var(--gold); }
+  .footer-links { display: flex; gap: 1.5rem; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+    margin: 0;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-kicker { animation: fadeUp .6s ease both; }
+  .hero h1     { animation: fadeUp .6s .1s ease both; }
+  .hero-sub    { animation: fadeUp .6s .2s ease both; }
+  .hero-actions{ animation: fadeUp .6s .3s ease both; }
+  .hero-stats  { animation: fadeUp .6s .4s ease both; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem; }
+    .nav-links { display: none; }
+    .apps-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .school-banner { grid-template-columns: 1fr; }
+    section { padding: 4rem 1.25rem; }
+    .hero { padding: 6rem 1.25rem 3rem; }
+  }
+  @media (max-width: 480px) {
+    .features-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">Edit<span>oby</span></a>
+  <ul class="nav-links">
+    <li><a href="#apps">Our Apps</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#schools">Schools</a></li>
+  </ul>
+  <a href="https://editoby1-bit.github.io/MY-EXAMS-APP/" class="nav-cta" target="_blank">Start Free →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">Nigerian EdTech — Built for Exam Season</div>
+  <h1>Ace Your Exams.<br/><em>Not Just Pass Them.</em></h1>
+  <p class="hero-sub">Past questions with full model answers, step-by-step solutions, snap-and-mark theory grading, and AI explanations — for WAEC, NECO, GCE, NABTEB and JAMB.</p>
+  <div class="hero-actions">
+    <a href="https://editoby1-bit.github.io/MY-EXAMS-APP/" class="btn-primary" target="_blank">
+      Open My Exams App →
+    </a>
+    <a href="#apps" class="btn-outline">See All Apps</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <span class="hero-stat-val">665+</span>
+      <span class="hero-stat-label">Past Questions</span>
+    </div>
+    <div>
+      <span class="hero-stat-val">15</span>
+      <span class="hero-stat-label">Subjects</span>
+    </div>
+    <div>
+      <span class="hero-stat-val">4</span>
+      <span class="hero-stat-label">Exam Bodies</span>
+    </div>
+    <div>
+      <span class="hero-stat-val">₦2,500</span>
+      <span class="hero-stat-label">Per Quarter</span>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <p>Covering every major Nigerian exam</p>
+  <div class="trust-exams">
+    <span class="trust-exam">WAEC</span>
+    <span class="trust-dot">·</span>
+    <span class="trust-exam">NECO</span>
+    <span class="trust-dot">·</span>
+    <span class="trust-exam">GCE</span>
+    <span class="trust-dot">·</span>
+    <span class="trust-exam">NABTEB</span>
+    <span class="trust-dot">·</span>
+    <span class="trust-exam">JAMB / UTME</span>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- APPS -->
+<section id="apps">
+  <div class="section-kicker">Our Products</div>
+  <h2 class="section-title">Two apps.<br/>One ecosystem.</h2>
+  <p class="section-sub">Whether you are preparing for secondary school finals or JAMB/UTME, we have the right tool — and a single subscription covers both.</p>
+
+  <div class="apps-grid">
+    <div class="app-card">
+      <div class="app-card-badge">Live Now</div>
+      <h3>My Exams App</h3>
+      <p>The most complete past question bank for Nigerian secondary school exams. Practice mode, exam mode, objective and theory — with official marking schemes and model answers for every question.</p>
+      <div class="app-subjects">
+        <span class="app-subject-pill">Mathematics</span>
+        <span class="app-subject-pill">English</span>
+        <span class="app-subject-pill">Biology</span>
+        <span class="app-subject-pill">Chemistry</span>
+        <span class="app-subject-pill">Physics</span>
+        <span class="app-subject-pill">Economics</span>
+        <span class="app-subject-pill">Government</span>
+        <span class="app-subject-pill">+8 more</span>
+      </div>
+      <a href="https://editoby1-bit.github.io/MY-EXAMS-APP/" class="app-link" target="_blank">
+        Open App
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 7h8M7 3l4 4-4 4"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="app-card">
+      <div class="app-card-badge outline">Live Now</div>
+      <h3>My JAMB App</h3>
+      <p>563 questions across 11 subjects purpose-built for JAMB/UTME. Full combo simulation with English + 3 subjects, timed sessions and per-subject score breakdown. AI explanations included.</p>
+      <div class="app-subjects">
+        <span class="app-subject-pill">English</span>
+        <span class="app-subject-pill">Mathematics</span>
+        <span class="app-subject-pill">Biology</span>
+        <span class="app-subject-pill">Government</span>
+        <span class="app-subject-pill">Literature</span>
+        <span class="app-subject-pill">CRS</span>
+        <span class="app-subject-pill">+5 more</span>
+      </div>
+      <a href="#pricing" class="app-link">
+        See Pricing
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 7h8M7 3l4 4-4 4"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-kicker">Why Editoby</div>
+  <h2 class="section-title">Built different.<br/>For Nigerian students.</h2>
+  <p class="section-sub">Every feature was designed around how Nigerian students actually prepare for exams — not how foreign apps assume they do.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📸</div>
+      <h4>Snap &amp; Mark Theory</h4>
+      <p>Write your answer on paper, snap a photo, and get marked against the official scheme in seconds. The only exam prep app in Nigeria with this feature.</p>
+      <span class="feature-tag">Unique Feature</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🧠</div>
+      <h4>AI Explanations</h4>
+      <p>Got a question wrong and still don't understand why? Ask for a deeper explanation. AI breaks it down in plain language, personalised to your weak areas.</p>
+      <span class="feature-tag">Plus Tier</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📅</div>
+      <h4>Year-by-Year Drilling</h4>
+      <p>Filter questions by exam year from 2019 to 2023. Drill a specific year or mix them randomly. Every question tagged by year, exam body and subject.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏆</div>
+      <h4>Challenge Friends</h4>
+      <p>Create a quiz challenge, share the code with friends on WhatsApp, and see who scores highest on the same questions. Study together, compete harder.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h4>Share Your Results</h4>
+      <p>Finished a session? Share your full result — score, grade, and question preview — as a link. Friends can view it and jump straight into the same subject.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📖</div>
+      <h4>Full Theory &amp; Marking Schemes</h4>
+      <p>Every theory question comes with the official point-by-point marking scheme, a model answer, and examiner tips from the chief examiner's report.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📵</div>
+      <h4>Works Offline</h4>
+      <p>Install as a PWA on your phone. Study without internet. No data? No problem. The full question bank is always available offline.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <h4>Practice &amp; Exam Modes</h4>
+      <p>Practice mode gives instant feedback after each question. Exam mode is timed with no feedback until you submit — just like the real thing.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔥</div>
+      <h4>Study Streaks</h4>
+      <p>Build a daily study habit. Your streak tracks how many consecutive days you have studied. Come back tomorrow — or lose it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-kicker">Simple Pricing</div>
+  <h2 class="section-title">One price.<br/>Everything included.</h2>
+  <p class="section-sub">No hidden charges. JAMB access is included in every paid plan — no separate subscription needed.</p>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-name">Free Trial</div>
+      <div class="price-desc">Test the product before you pay.</div>
+      <div class="price-amount">₦0</div>
+      <div class="price-period">10 questions lifetime · 3 snaps</div>
+      <ul class="price-perks">
+        <li>10 questions, any subject</li>
+        <li>3 snap-and-mark tries</li>
+        <li>Practice mode only</li>
+        <li>No credit card required</li>
+      </ul>
+      <a href="https://editoby1-bit.github.io/MY-EXAMS-APP/" class="price-btn secondary" target="_blank">Start Free</a>
+    </div>
+
+    <div class="price-card featured">
+      <div class="price-name">Student Pass</div>
+      <div class="price-desc">Everything you need to pass.</div>
+      <div class="price-amount">₦2,500</div>
+      <div class="price-period">per quarter · or ₦7,500/year</div>
+      <ul class="price-perks">
+        <li>Unlimited sessions — all 15 subjects</li>
+        <li>WAEC, NECO, GCE, NABTEB + year filters</li>
+        <li>Full model answers + marking schemes</li>
+        <li>50 snap-and-mark credits/quarter</li>
+        <li>JAMB prep + 100 AI explanations</li>
+        <li>Community quiz — challenge friends</li>
+        <li>Works offline · PWA installable</li>
+      </ul>
+      <a href="https://editoby1-bit.github.io/MY-EXAMS-APP/" class="price-btn" target="_blank">Get Student Pass →</a>
+    </div>
+
+    <div class="price-card">
+      <div class="price-name">Student Pass Plus</div>
+      <div class="price-desc">For students who want every edge.</div>
+      <div class="price-amount">₦3,500</div>
+      <div class="price-period">per quarter · or ₦10,500/year</div>
+      <ul class="price-perks">
+        <li>Everything in Student Pass</li>
+        <li>100 AI explanations on Exams App</li>
+        <li>100 AI explanations on JAMB App</li>
+        <li>"Why is this wrong?" on every question</li>
+        <li>Personalised to your weak areas</li>
+        <li>Snap top-up: ₦300 = 10 snaps</li>
+        <li>AI top-up: ₦500 = 50 explanations</li>
+      </ul>
+      <a href="https://editoby1-bit.github.io/MY-EXAMS-APP/" class="price-btn secondary" target="_blank">Get Plus →</a>
+    </div>
+  </div>
+
+  <p style="text-align:center;margin-top:1.5rem;font-size:.8rem;color:rgba(255,255,255,0.3);">
+    Early access: First 100 students pay ₦2,000/quarter — locked in forever. · JAMB Only: ₦1,500/quarter standalone
+  </p>
+</section>
+
+<!-- SCHOOLS -->
+<section id="schools">
+  <div class="school-banner">
+    <div>
+      <div class="section-kicker">For Schools</div>
+      <h3>Give every student<br/>in your school an edge.</h3>
+      <p style="margin-bottom:1.5rem">School bundles give your students full access at a fraction of the individual price. Charge it as part of school fees. Your school profits on the markup — and students get the best exam prep tool available.</p>
+      <a href="mailto:schools@myexamsapp.com" class="btn-primary" style="display:inline-flex">
+        Contact Us for School Bundle →
+      </a>
+    </div>
+    <div class="school-tiers">
+      <div class="school-tier-row">
+        <span class="school-tier-name">Standard</span>
+        <span class="school-tier-price">₦2,000/student/yr</span>
+      </div>
+      <div class="school-tier-row">
+        <span class="school-tier-name">Branded</span>
+        <span class="school-tier-price">₦500,000/yr</span>
+      </div>
+      <div class="school-tier-row">
+        <span class="school-tier-name">Premium Partner</span>
+        <span class="school-tier-price">₦1,000,000/yr</span>
+      </div>
+      <p style="font-size:.7rem;color:rgba(255,255,255,0.3);margin-top:.4rem;text-align:center">Min 50 students · School logo · Admin dashboard available</p>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="cta-section">
+  <h2>Your exam is coming.<br/><em>Are you ready?</em></h2>
+  <p>Join students across Nigeria who are preparing smarter with My Exams App. Start free — no card needed.</p>
+  <a href="https://editoby1-bit.github.io/MY-EXAMS-APP/" class="btn-primary" target="_blank" style="font-size:1rem;padding:1rem 2.5rem">
+    Start Studying Now →
+  </a>
+</div>
+
+<!-- FOOTER -->
+<div class="divider"></div>
+<footer>
+  <div class="footer-logo">Edit<span>oby</span></div>
+  <p>© 2025 Editoby. Nigerian EdTech. Built with purpose.</p>
+  <div class="footer-links">
+    <a href="https://editoby1-bit.github.io/MY-EXAMS-APP/" target="_blank">My Exams App</a>
+    <a href="mailto:schools@myexamsapp.com">Schools</a>
+    <a href="mailto:hello@myexamsapp.com">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
